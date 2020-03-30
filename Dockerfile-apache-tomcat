@@ -1,0 +1,19 @@
+FROM centos
+
+MAINTAINER linuxraja@gmail.com
+
+RUN mkdir /usr/share/tomcat/
+
+WORKDIR /usr/share/tomcat/
+RUN curl -O https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.33/bin/apache-tomcat-9.0.33.tar.gz
+RUN tar xvfz apache*.tar.gz
+RUN mv apache-tomcat-9.0.33/* /usr/share/tomcat/.
+RUN yum -y install java
+RUN java -version
+
+WORKDIR /usr/share/tomcat/webapps
+RUN curl -O -L https://github.com/cloudwwh/sampleapplication/blob/master/LinuxrajaWebApp.war
+
+EXPOSE 8080
+
+CMD ["/usr/share/tomcat/bin/catalina.sh", "run"]
